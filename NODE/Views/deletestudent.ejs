@@ -1,0 +1,36 @@
+<!--student delete confirmation-->
+<html>
+<head>
+    <title>Delete Student</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- delete student on form submit -->
+    <script>
+        $(document).ready(function(){
+            $("#deletestudent").submit(function(event){
+                event.preventDefault();
+                $.ajax({
+                    url: "/students/<%= student._id %>",
+                    type: "DELETE",
+                    success: function(result){
+                        window.location.href = "/students";
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <h3>Delete Student</h3>
+    <form id="deletestudent">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" value="<%= student.name %>" readonly>
+        <label for="email">Email</label>
+        <input type="text" id="email" name="email" value="<%= student.email %>" readonly>
+        <label for="class">Class</label>
+        <input type="text" id="class" name="class" value="<%= student.class %>" readonly>
+        <label for="semester">Semester</label>
+        <input type="text" id="semester" name="semester" value="<%= student.semester %>" readonly>
+        <input type="submit" value="Delete">
+    </form>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!-- Form to add new student -->
+<html>
+<head>
+    <title>Add Student</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- add student on form submit -->
+    <script>
+        $(document).ready(function(){
+            $("#addstudent").submit(function(event){
+                event.preventDefault();
+                var student = {
+                    name: $("#name").val(),
+                    email: $("#email").val(),
+                    class: $("#class").val(),
+                    semester: $("#semester").val()
+                }
+                $.ajax({
+                    url: "/students",
+                    type: "POST",
+                    data: student,
+                    success: function(result){
+                        window.location.href = "/students";
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <h3>Add New Student</h3>
+    <form id="addstudent">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Your name..">
+        <label for="email">Email</label>
+        <input type="text" id="email" name="email" placeholder="Your email..">
+        <label for="class">Class</label>
+        <input type="text" id="class" name="class" placeholder="Your class..">
+        <label for="semester">Semester</label>
+        <input type="text" id="semester" name="semester" placeholder="Your semester..">
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
