@@ -1,31 +1,45 @@
 <?php
-session_start();
-$msg="";
 
-if(isset($_POST['submit']))
-{
-    if($_POST['code']==$_SESSION['code'])
-    {
-        $msg="Correct Code Entered";
-    }
-    else
-    {
-        $msg="Wrong Code Entered";
-    }
-}
+session_start();
+$msg = '';
+
+// If user has given a captcha!
+if (isset($_POST['input']))
+
+	// If the captcha is valid
+	if ($_POST['input'] == $_SESSION['captcha'])
+		$msg = '<span style="color:green">SUCCESSFUL!!!</span>';
+	else
+		$msg = '<span style="color:red">CAPTCHA FAILED!!!</span>';
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>PHP Captcha</title>
-</head>
+<style>
+	body{
+		display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+	}
+</style>
+
 <body>
-    <form method="post" action="">
-        <img src="captcha.php" /><br />
-        <input type="text" name="code" /><br />
-        <input type="submit" name="submit" value="Submit" />
-    </form>
-    <p><?php echo $msg; ?></p>
+	<h2>PROVE THAT YOU ARE NOT A ROBOT!!</h2>
+	
+	<strong>
+		Type the text in the image to prove
+		you are not a robot
+	</strong>
+
+	<div style='margin:15px'>
+		<img src="captcha.php">
+	</div>
+	
+	<form method="POST">
+		<input type="text" name="input"/>
+		<input type="submit" value="Submit" name="submit"/>
+	</form>
+	
+	<div style='margin-bottom:5px'>
+		<?php echo $msg; ?>
+	</div>
 </body>
-</html>

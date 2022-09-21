@@ -1,32 +1,41 @@
 <?php
+
+// We start a session to access
+// the captcha externally!
 session_start();
 
-// Set the content-type
+// Generate a random number
+// from 1000-9999
+$captcha = rand(1000, 9999);
+
+// The captcha will be stored
+// for the session
+$_SESSION["captcha"] = $captcha;
+
+// Generate a 50x24 standard captcha image
+$im = imagecreatetruecolor(50, 24);
+
+// Black color for captcha text
+$black = imagecolorallocate($im, 0, 0, 0);
+
+// White color for captcha background
+$white = imagecolorallocate($im, 255, 255, 255);
+
+// Give the image a white background
+imagefill($im, 0, 0, $white);
+
+// Print the captcha text in the image
+// with random position & size
+imagestring($im, rand(1, 7), rand(1, 7),
+			rand(1, 7), $captcha, $black); //imagestring(image,font-size,x-pos,y-pos,string,color)
+
+// The PHP-file will be rendered as image
 header('Content-type: image/png');
 
-// Create the image
-$im = imagecreatetruecolor(200, 50);
-
-// Create some colors
-$white = imagecolorallocate($im, 255, 255, 255);
-$grey = imagecolorallocate($im, 128, 128, 128);
-$black = imagecolorallocate($im, 0, 0, 0);
-imagefilledrectangle($im, 0, 0, 199, 49, $white);
-
-// The text to draw
-$code = rand(1000,9999);
-$_SESSION['code'] = $code;
-
-// Replace path by your own font path
-$font = 'arial.ttf';
-
-// Add some shadow to the text
-imagettftext($im, 20, 0, 11, 21, $grey, $font, $code);
-
-// Add the text
-imagettftext($im, 20, 0, 10, 20, $black, $font, $code);
-
-// Using imagepng() results in clearer text compared with imagejpeg()
+// Finally output the captcha as
+// PNG image the browser
 imagepng($im);
+
+// Free memory
 imagedestroy($im);
 ?>
